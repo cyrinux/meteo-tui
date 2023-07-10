@@ -31,7 +31,7 @@ fn main() {
                     ui::init(ui::MeteoTabs::TabPrevision, Some(code), &METEO_CLIENT);
                 }
                 Err(_) => {
-                    print!("Code postal incorrect.\n");
+                    println!("Code postal incorrect.");
                 }
             }
         } else {

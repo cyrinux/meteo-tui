@@ -11,7 +11,7 @@ pub fn request(base_url: String, sub_dir: String, arguments: HashMap<String, Str
     let mut url_str = base_url + sub_dir.chars().as_str() + "/";
 
     // Pour chaque argument, l'ajouter à l'URL
-    if arguments.len() > 0 {
+    if !arguments.is_empty() {
         url_str += "?";
         let mut c = 0;
         for i in arguments {
@@ -33,10 +33,10 @@ pub fn request(base_url: String, sub_dir: String, arguments: HashMap<String, Str
         Ok(mut resp) => {
             let mut content = String::new();
             resp.read_to_string(&mut content);
-            return content;
+            content
         }
         Err(_) => {
-            return String::from("");
+            String::from("")
         }
     }
 }

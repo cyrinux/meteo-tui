@@ -52,7 +52,7 @@ struct FrancePrevision {
 /// Au démarrage, on génére un vecteur des principales villes de France
 impl FrancePrevision {
     fn generate() -> Vec<FrancePrevision> {
-        return vec![
+        vec![
             FrancePrevision {
                 code: 75001,
                 name: "Paris",
@@ -196,7 +196,7 @@ impl FrancePrevision {
                 down_to: 0,
                 up_to: 0
             },*/
-        ];
+        ]
     }
 }
 
@@ -265,19 +265,19 @@ impl MeteoApp {
             Err(_) => None,
         };
 
-        return Ok(MeteoApp {
+        Ok(MeteoApp {
             tab: MeteoTabs::TabCarte,
             mode: Mode::ReadMode,
             search: String::new(),
             search_error: false,
             search_error_message: String::new(),
-            previsions_france: previsions_france,
+            previsions_france,
             previsions_france_selected: 0,
-            prevision: prevision,
-            default_place: default_place.clone(),
+            prevision,
+            default_place,
             actual_place: p,
             exit: false,
-        });
+        })
     }
 
     fn tab_key(&mut self) {
@@ -612,11 +612,9 @@ fn draw_fullpage_message(
         }
 
         // Gestion des touches du clavier
-        if let Event::Key(key) = event::read().unwrap() {
-            match key.code {
-                _ => {
-                    return;
-                }
+        if let Event::Key(_key) = event::read().unwrap() {
+            {
+                return;
             }
         }
     }
@@ -656,7 +654,7 @@ fn draw<B: Backend>(f: &mut Frame<B>, meteo_app: &mut MeteoApp) {
     // Si touche "s" préssé (mode recherche)
     let block_search = Block::default()
         .title(match meteo_app.search_error {
-            false => "Recherche (code postal)".as_ref(),
+            false => "Recherche (code postal)",
             true => meteo_app.search_error_message.as_ref(),
         })
         .borders(Borders::ALL);
@@ -818,14 +816,7 @@ fn onglet_carte<B: Backend>(f: &mut Frame<B>, meteo_app: &mut MeteoApp, frame: R
 
     match prev {
         Some(prev) => {
-            let today_prev = prev
-                .properties
-                .to_owned()
-                .unwrap()
-                .daily_forecast
-                .to_owned()
-                .unwrap()[0]
-                .to_owned();
+            let today_prev = prev.properties.unwrap().daily_forecast.unwrap()[0].to_owned();
 
             let date_prevision = Paragraph::new(Text::styled(
                 prevs[i].name,
@@ -1052,14 +1043,8 @@ fn onglet_prevision<B: Backend>(f: &mut Frame<B>, meteo_app: &mut MeteoApp, fram
                 .borders(Borders::ALL);
             f.render_widget(block_meteo_temperatures, rect_sub_right[1]);
 
-            let today_prev = prev
-                .properties
-                .to_owned()
-                .unwrap()
-                .daily_forecast
-                .to_owned()
-                .unwrap()[0]
-                .to_owned();
+            let today_prev =
+                prev.properties.to_owned().unwrap().daily_forecast.unwrap()[0].to_owned();
 
             let date_prevision = Paragraph::new(Text::styled(
                 "Aujourd'hui",
@@ -1325,25 +1310,23 @@ fn onglet_prevision<B: Backend>(f: &mut Frame<B>, meteo_app: &mut MeteoApp, fram
             }
 
             // Block Températures (rect_sub_right)
-            let mut daily_forecast_vec =
-                prev.properties.unwrap().daily_forecast.to_owned().unwrap();
+            let mut daily_forecast_vec = prev.properties.unwrap().daily_forecast.unwrap();
             daily_forecast_vec.remove(0);
 
             let mut data_string: Vec<(String, u64)> = vec![];
             for d in daily_forecast_vec {
-                let mut temp = 0.0;
                 let t_min = d.t_min.unwrap_or(99.1);
                 let t_max = d.t_min.unwrap_or(99.1);
 
-                if t_min > 99.0 && t_max > 99.0 {
+                let temp = if t_min > 99.0 && t_max > 99.0 {
                     continue;
                 } else if t_min > 99.0 {
-                    temp = t_max;
+                    t_max
                 } else if t_max > 99.0 {
-                    temp = t_min;
+                    t_min
                 } else {
-                    temp = (t_min + t_max) / 2.0;
-                }
+                    (t_min + t_max) / 2.0
+                };
 
                 let date = get_dateheure_from_str(d.time.to_owned().unwrap());
                 let string_date = date.format("%d/%m").to_string();
@@ -1369,7 +1352,7 @@ fn onglet_prevision<B: Backend>(f: &mut Frame<B>, meteo_app: &mut MeteoApp, fram
         }
         None => {
             let message = "Aucune ville de renseignée ou de recherchée";
-            let block_no_place = Paragraph::new(message.as_ref()).style(Style::default());
+            let block_no_place = Paragraph::new(message).style(Style::default());
             f.render_widget(block_no_place, frame)
         }
     }

@@ -25,7 +25,7 @@ pub fn JSONToPlace(string: String) -> Result<data::Place, MeteoErreurs> {
                 let places = json_place.as_array();
                 match places {
                     Some(p) => {
-                        if p.len() > 0 {
+                        if !p.is_empty() {
                             let j = p[0].to_owned();
                             let mut p = Place::new();
                             p.insee = value_to_string(j["insee"].to_owned());
@@ -36,15 +36,15 @@ pub fn JSONToPlace(string: String) -> Result<data::Place, MeteoErreurs> {
                             p.admin = value_to_string(j["admin"].to_owned());
                             p.admin2 = value_to_string(j["admin2"].to_owned());
                             p.postCode = value_to_string(j["postCode"].to_owned());
-                            return Ok(p);
+                            Ok(p)
                         } else {
-                            return Err(MeteoErreurs::StringParseErreur);
+                            Err(MeteoErreurs::StringParseErreur)
                         }
                     }
                     None => Err(MeteoErreurs::StringParseErreur),
                 }
             } else {
-                return Err(MeteoErreurs::StringParseErreur);
+                Err(MeteoErreurs::StringParseErreur)
             }
         }
         Err(_) => Err(MeteoErreurs::StringParseErreur),
@@ -149,7 +149,7 @@ pub fn JSONToPrevision(string: String) -> Result<data::Prevision, MeteoErreurs> 
                         None => {}
                     }
 
-                    if daily_forecast.len() > 0 {
+                    if !daily_forecast.is_empty() {
                         properties.daily_forecast = Some(daily_forecast);
                     } else {
                         properties.daily_forecast = None;
@@ -206,7 +206,7 @@ pub fn JSONToPrevision(string: String) -> Result<data::Prevision, MeteoErreurs> 
                         None => {}
                     }
 
-                    if forecast.len() > 0 {
+                    if !forecast.is_empty() {
                         properties.forecast = Some(forecast);
                     } else {
                         properties.forecast = None;
@@ -243,7 +243,7 @@ pub fn JSONToPrevision(string: String) -> Result<data::Prevision, MeteoErreurs> 
                         None => {}
                     }
 
-                    if probability.len() > 0 {
+                    if !probability.is_empty() {
                         properties.probability_forecast = Some(probability);
                     } else {
                         properties.probability_forecast = None;
@@ -257,7 +257,7 @@ pub fn JSONToPrevision(string: String) -> Result<data::Prevision, MeteoErreurs> 
                 prevision.properties = None;
             }
 
-            return Ok(prevision);
+            Ok(prevision)
         }
         Err(_) => Err(MeteoErreurs::StringParseErreur),
     }

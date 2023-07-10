@@ -5,23 +5,23 @@ pub mod OptionJSONUtils {
         if !val.is_null() && val.is_string() {
             return Some(val.as_str().unwrap().to_string());
         } else {
-            return None;
+            None
         }
     }
 
     pub fn value_to_f64(val: serde_json::Value) -> Option<f64> {
         if !val.is_null() && val.is_f64() {
-            return Some(val.to_string().parse::<f64>().unwrap_or(0.0));
+            Some(val.to_string().parse::<f64>().unwrap_or(0.0))
         } else {
-            return None;
+            None
         }
     }
 
     pub fn value_to_i64(val: serde_json::Value) -> Option<i64> {
         if !val.is_null() && val.is_i64() {
-            return Some(val.to_string().parse::<i64>().unwrap_or(0));
+            Some(val.to_string().parse::<i64>().unwrap_or(0))
         } else {
-            return None;
+            None
         }
     }
 }

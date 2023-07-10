@@ -117,7 +117,7 @@ pub fn get_coords_icon_from_str(string: String) -> Vec<(f64, f64)> {
 /// Cette fonction permet de récupérer les coordonnées
 /// de la carte de France
 pub fn get_france_coords() -> Vec<(f64, f64)> {
-    return vec![
+    vec![
         (153.00000190734863, 126.99999809265137),
         (149.34173583984375, 122.67318725585938),
         (147.13201522827148, 117.52721786499023),
@@ -268,14 +268,14 @@ pub fn get_france_coords() -> Vec<(f64, f64)> {
         (158.24684143066406, 9.47097659111023),
         (161.89998626708984, 7.000070810317993),
         (165.29369354248047, 9.767490029335022),
-    ];
+    ]
 }
 
 /// Cette fonction permet de récupérer les coordonnées
 /// de différents types d'illustration des prévisions météo
 /// (un icon pour chaque option de l'enum AsciiIconType)
 pub fn get_icon_coords(which: AsciiIconType) -> Vec<(f64, f64)> {
-    return match which {
+    match which {
         AsciiIconType::Ensoleille => {
             vec![
                 (36.500000953674316, 69.00000095367432),
@@ -1662,5 +1662,5 @@ pub fn get_icon_coords(which: AsciiIconType) -> Vec<(f64, f64)> {
                 (114.57842826843262, 94.2226505279541),
             ]
         }
-    };
+    }
 }

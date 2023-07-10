@@ -18,7 +18,7 @@ pub struct Place {
 
 impl Default for Place {
     fn default() -> Self {
-        return Place {
+        Place {
             insee: Some(String::from("75001")),
             name: Some(String::from("Paris 01")),
             lat: Some(48.8592),
@@ -27,13 +27,13 @@ impl Default for Place {
             admin: Some(String::from("Île-de-France")),
             admin2: Some(String::from("75")),
             postCode: Some(String::from("75001")),
-        };
+        }
     }
 }
 
 impl Place {
     pub fn new() -> Self {
-        return Place {
+        Place {
             insee: None,
             name: None,
             lat: None,
@@ -42,7 +42,7 @@ impl Place {
             admin: None,
             admin2: None,
             postCode: None,
-        };
+        }
     }
 }
 
@@ -58,12 +58,12 @@ pub struct Prevision {
 
 impl Prevision {
     pub fn new() -> Self {
-        return Prevision {
+        Prevision {
             update_time: None,
             typee: None,
             geometry: None,
             properties: None,
-        };
+        }
     }
 }
 
@@ -75,10 +75,10 @@ pub struct Geometry {
 
 impl Geometry {
     pub fn new() -> Self {
-        return Geometry {
+        Geometry {
             typee: None,
             coordinates: None,
-        };
+        }
     }
 }
 
@@ -99,7 +99,7 @@ pub struct Properties {
 
 impl Properties {
     pub fn new() -> Self {
-        return Properties {
+        Properties {
             altitude: None,
             name: None,
             country: None,
@@ -111,7 +111,7 @@ impl Properties {
             daily_forecast: None,
             forecast: None,
             probability_forecast: None,
-        };
+        }
     }
 }
 
@@ -133,7 +133,7 @@ pub struct DailyForecast {
 
 impl DailyForecast {
     pub fn new() -> Self {
-        return DailyForecast {
+        DailyForecast {
             time: None,
             t_min: None,
             t_max: None,
@@ -146,7 +146,7 @@ impl DailyForecast {
             daily_weather_description: None,
             sunrise_time: None,
             sunset_time: None,
-        };
+        }
     }
 }
 
@@ -180,7 +180,7 @@ pub struct Forecast {
 
 impl Forecast {
     pub fn new() -> Forecast {
-        return Forecast {
+        Forecast {
             time: None,
             t: None,
             t_windchill: None,
@@ -205,7 +205,7 @@ impl Forecast {
             total_cloud_cover: None,
             weather_icon: None,
             weather_description: None,
-        };
+        }
     }
 }
 
@@ -222,7 +222,7 @@ pub struct ProbabilityForecast {
 
 impl ProbabilityForecast {
     pub fn new() -> Self {
-        return ProbabilityForecast {
+        ProbabilityForecast {
             time: None,
             rain_hazard_3h: None,
             rain_hazard_6h: None,
@@ -230,6 +230,6 @@ impl ProbabilityForecast {
             snow_hazard_6h: None,
             freezing_hazard: None,
             storm_hazard: None,
-        };
+        }
     }
 }

@@ -19,13 +19,13 @@ impl MeteoFranceAPI {
     /// Requêtes HTTP pour trouver une ville, retourne le résultat JSON
     pub fn get_JSON_place(&self, code_postal: i32) -> String {
         let mut arguments = HashMap::new();
-        arguments.insert(String::from("q"), String::from(code_postal.to_string()));
+        arguments.insert(String::from("q"), code_postal.to_string());
         arguments.insert(String::from("token"), String::from(self.token.clone()));
-        return http::request(
+        http::request(
             String::from(self.base_url.clone()),
             String::from("places"),
             arguments,
-        );
+        )
     }
 
     #[allow(unused_must_use)]
@@ -39,11 +39,11 @@ impl MeteoFranceAPI {
                     arguments.insert(String::from("lat"), lat.to_string());
                     arguments.insert(String::from("lon"), lon.to_string());
                     arguments.insert(String::from("token"), String::from(self.token.clone()));
-                    return Ok(http::request(
+                    Ok(http::request(
                         String::from(self.base_url.clone()),
                         String::from("forecast"),
                         arguments,
-                    ));
+                    ))
                 }
                 None => Err(MeteoErreurs::BadForecastLocation),
             },
@@ -62,7 +62,7 @@ impl MeteoFranceAPI {
     pub fn get_prevision(&self, place: Place) -> Result<Prevision, MeteoErreurs> {
         let json_content = self.get_JSON_forecast(place)?;
         let prevision = parser::JSONToPrevision(json_content)?;
-        return Ok(prevision);
+        Ok(prevision)
     }
 
     /// Ecriture du fichier de configuration pour changer la ville par défaut
